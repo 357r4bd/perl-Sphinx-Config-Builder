@@ -117,6 +117,26 @@ Sphinx::Config::Simple - Perl extension creating dynamic Sphinx configuration fi
 =head1 SYNOPSIS
 
   use Sphinx::Config::Simple;
+
+  my $cfg = Sphinx::Config::Simple->new(); 
+
+  for my $i (1 .. 10) {
+    my $index   = Sphinx::Config::Simple::Entry::Index->new({name => qq{index$i});
+    #$index->push_kvpair({ src => q{...});
+    #...
+
+    my $source  = Sphinx::Config::Simple::Entry::Source->new({name => qq{source$i});
+    #$source->push_kvpair({ x => q{...});
+    #...
+
+    $cfg->push_index($index);
+    $cfg->push_source($source);
+  }
+
+  my $indexer = $cfg->indexer();
+  my $searchd = $cfg->searchd();
+
+  print $cfg->to_string();
   
 
 =head1 DESCRIPTION
@@ -125,13 +145,9 @@ Stub documentation for Sphinx::Config::Simple, created by h2xs. It looks like th
 author of the extension was negligent enough to leave the stub
 unedited.
 
-Blah blah blah.
-
 =head2 EXPORT
 
 None by default.
-
-
 
 =head1 SEE ALSO
 
@@ -146,11 +162,11 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-User &, E<lt>patchbaz@nonetE<gt>
+B. Estrade, E<lt>estrabd@gmail.com<gt>
 
 =head1 CoPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by User &
+Copyright (C) 2013 by B. Estrade 
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.14.4 or,
