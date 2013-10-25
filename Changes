@@ -1,0 +1,6 @@
+Revision history for Perl extension Sphinx::Config::Simple.
+
+0.01  Thu Oct 24 13:16:47 2013
+	- original version; created by h2xs 1.23 with options
+		-XAn Sphinx::Config::Simple
+

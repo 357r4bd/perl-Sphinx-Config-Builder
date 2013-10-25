@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/Sphinx-Config-Simple.t
+lib/Sphinx/Config/Simple.pm
