@@ -122,11 +122,11 @@ Sphinx::Config::Simple - Perl extension creating dynamic Sphinx configuration fi
 
   for my $i (1 .. 10) {
     my $index   = Sphinx::Config::Simple::Entry::Index->new({name => qq{index$i});
-    #$index->push_kvpair({ src => q{...});
+    #$index->push_kvpair({ src => q{...}});
     #...
 
     my $source  = Sphinx::Config::Simple::Entry::Source->new({name => qq{source$i});
-    #$source->push_kvpair({ x => q{...});
+    #$source->push_kvpair({ x => q{...}});
     #...
 
     $cfg->push_index($index);
