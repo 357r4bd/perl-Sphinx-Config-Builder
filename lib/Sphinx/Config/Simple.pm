@@ -98,7 +98,21 @@ sub name {
 }
 
 sub to_string {
-
+  my $self = shift;
+  my $name = $self->{name};
+  my $ret =  qq/
+source $name 
+{ 
+/;
+  foreach my $kv_pair (@{$self->{kv_pairs}}) {
+    my @k = keys %$kv_pair;
+    my $k = pop @k;
+    my $v = $kv_pair->{$k}; 
+    $ret .= qq{    $k = $v\n};
+  }
+  $ret .= qq/
+}/;
+  return $ret;
 }
 
 package Sphinx::Config::Entry::Index;
@@ -112,7 +126,21 @@ sub name {
 }
 
 sub to_string {
-
+  my $self = shift;
+  my $name = $self->{name};
+  my $ret =  qq/
+index $name 
+{ 
+/;
+  foreach my $kv_pair (@{$self->{kv_pairs}}) {
+    my @k = keys %$kv_pair;
+    my $k = pop @k;
+    my $v = $kv_pair->{$k}; 
+    $ret .= qq{    $k = $v\n};
+  }
+  $ret .= qq/
+}/;
+  return $ret;
 }
 
 package Sphinx::Config::Entry::Indexer;
