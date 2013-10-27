@@ -11,11 +11,33 @@ sub new {
     indexes => [], # container of ::Index references 
     sources => [], # container of ::Source references
     indexer => Sphinx::Config::Entry::Indexer->new(),
-    searchd => Sphinx::Config::Entry::Searchd->new(),,
+    searchd => Sphinx::Config::Entry::Searchd->new(),
   };
 
   bless $self, $pkg;
   return $self;
+}
+
+sub push_index {
+  my $self = shift;
+  push @{$self->{indexes}}, @_;
+  return;
+}
+
+sub pop_index {
+  my $self = shift;
+  return pop @{$self->{indexes}};
+}
+
+sub push_source {
+  my $self = shift;
+  push @{$self->{sources}}, @_;
+  return;
+}
+
+sub pop_source {
+  my $self = shift;
+  return pop @{$self->{sources}};
 }
 
 sub index_list {
@@ -43,7 +65,9 @@ package Sphinx::Config::Entry;
 
 sub new {
   my $pkg = shift;
-  my $self = [ ];
+  my $self = { 
+    kv_pairs => [],
+  };
 
   bless $self, $pkg;
   return $self;
@@ -51,13 +75,12 @@ sub new {
 
 sub push {
   my $self = shift;
-  warn q{Not a hash reference} if ref $_[0] ne q{HASH};
-  return push @{$self}, $_[0];
+  return push @{$self->{kv_pairs}}, @_;
 }
 
 sub pop {
   my $self = shift;
-  return pop @{$self};
+  return pop @{$self->{kv_pairs}};
 }
 
 sub to_string {
@@ -66,11 +89,11 @@ sub to_string {
 
 package Sphinx::Config::Entry::Source;
 
-our @ISA = q{Sphinx::Config::Config::Entry};
+our @ISA = q{Sphinx::Config::Entry};
 
 sub name {
   my $self = shift;
-  $self->{name} = $_ if ref $_ eq q{SCALAR};
+  $self->{name} = $_[0] if $_[0];
   return $self->{name};
 }
 
@@ -80,11 +103,11 @@ sub to_string {
 
 package Sphinx::Config::Entry::Index;
 
-our @ISA = q{Sphinx::Config::Config::Entry};
+our @ISA = q{Sphinx::Config::Entry};
 
 sub name {
   my $self = shift;
-  $self->{name} = $_ if ref $_ eq q{SCALAR};
+  $self->{name} = $_[0] if $_[0];
   return $self->{name};
 }
 
@@ -94,7 +117,7 @@ sub to_string {
 
 package Sphinx::Config::Entry::Indexer;
 
-our @ISA = q{Sphinx::Config::Config::Entry};
+our @ISA = q{Sphinx::Config::Entry};
 
 sub to_string {
 
@@ -102,13 +125,14 @@ sub to_string {
 
 package Sphinx::Config::Entry::Searchd;
 
-our @ISA = q{Sphinx::Config::Config::Entry};
+our @ISA = q{Sphinx::Config::Entry};
 
 sub to_string {
 
 }
 
 1;
+
 __END__
 =head1 NAME
 
@@ -117,26 +141,6 @@ Sphinx::Config::Simple - Perl extension creating dynamic Sphinx configuration fi
 =head1 SYNOPSIS
 
   use Sphinx::Config::Simple;
-
-  my $cfg = Sphinx::Config::Simple->new(); 
-
-  for my $i (1 .. 10) {
-    my $index   = Sphinx::Config::Simple::Entry::Index->new({name => qq{index$i});
-    #$index->push_kvpair({ src => q{...}});
-    #...
-
-    my $source  = Sphinx::Config::Simple::Entry::Source->new({name => qq{source$i});
-    #$source->push_kvpair({ x => q{...}});
-    #...
-
-    $cfg->push_index($index);
-    $cfg->push_source($source);
-  }
-
-  my $indexer = $cfg->indexer();
-  my $searchd = $cfg->searchd();
-
-  print $cfg->to_string();
   
 
 =head1 DESCRIPTION
@@ -145,9 +149,13 @@ Stub documentation for Sphinx::Config::Simple, created by h2xs. It looks like th
 author of the extension was negligent enough to leave the stub
 unedited.
 
+Blah blah blah.
+
 =head2 EXPORT
 
 None by default.
+
+
 
 =head1 SEE ALSO
 
@@ -162,11 +170,11 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-B. Estrade, E<lt>estrabd@gmail.com<gt>
+User &, E<lt>patchbaz@nonetE<gt>
 
 =head1 CoPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by B. Estrade 
+Copyright (C) 2013 by User &
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.14.4 or,
