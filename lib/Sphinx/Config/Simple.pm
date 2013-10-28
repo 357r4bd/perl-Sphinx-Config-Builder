@@ -60,6 +60,20 @@ sub searchd {
   return $self->{searchd};
 }
 
+sub to_string {
+  my $self = shift;
+  my $ret = q{};
+  foreach my $index (@{$self->index_list}) {
+    $ret .= $index->to_string();
+  }
+  foreach my $source (@{$self->source_list}) {
+    $ret .= $source->to_string();
+  }
+  $ret .= $self->indexer->to_string();
+  $ret .= $self->searchd->to_string();
+  return $ret;
+}
+
 # bless array of singleton key/value hash refs
 package Sphinx::Config::Entry;
 
@@ -148,7 +162,20 @@ package Sphinx::Config::Entry::Indexer;
 our @ISA = q{Sphinx::Config::Entry};
 
 sub to_string {
-
+  my $self = shift;
+  my $ret =  qq/
+indexer 
+{ 
+/;
+  foreach my $kv_pair (@{$self->{kv_pairs}}) {
+    my @k = keys %$kv_pair;
+    my $k = pop @k;
+    my $v = $kv_pair->{$k}; 
+    $ret .= qq{    $k = $v\n};
+  }
+  $ret .= qq/
+}/;
+  return $ret;
 }
 
 package Sphinx::Config::Entry::Searchd;
@@ -156,7 +183,20 @@ package Sphinx::Config::Entry::Searchd;
 our @ISA = q{Sphinx::Config::Entry};
 
 sub to_string {
-
+  my $self = shift;
+  my $ret =  qq/
+searchd 
+{ 
+/;
+  foreach my $kv_pair (@{$self->{kv_pairs}}) {
+    my @k = keys %$kv_pair;
+    my $k = pop @k;
+    my $v = $kv_pair->{$k}; 
+    $ret .= qq{    $k = $v\n};
+  }
+  $ret .= qq/
+}/;
+  return $ret;
 }
 
 1;
