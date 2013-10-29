@@ -310,6 +310,50 @@ file that may be printed to STDOUT for the C<indexer> to consume using the C<--c
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<Sphinx::Config::Builder> 
+
+=head3 C<new>
+
+=head3 C<push_index>
+
+=head3 C<pop_index>
+
+=head3 C<push_source>
+
+=head3 C<pop_source>
+
+=head3 C<index_list>
+
+=head3 C<source_list>
+
+=head3 C<indexer>
+
+=head3 C<sourced>
+
+=head3 C<as_string>
+
+=head2 C<Sphinx::Config::Entry::Index> and C<Sphinx::Config::Entry::Source> 
+
+=head3 C<new> 
+
+=head3 C<push> 
+
+=head3 C<pop> 
+
+=head3 C<as_string>
+
+=head3 C<name> 
+
+=head2 C<Sphinx::Config::Entry::Indexer> and C<Sphinx::Config::Entry::Searchd>  
+
+=head3 C<new> 
+
+=head3 C<push> 
+
+=head3 C<pop> 
+
+=head3 C<as_string>
+
 =head1 DEPENDENCIES
 
 None.
