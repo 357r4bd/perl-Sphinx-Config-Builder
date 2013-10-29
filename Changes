@@ -1,5 +1,9 @@
 Revision history for Perl module Sphinx::Config::Builder
 
+1.02
+    - Makefile.PL will now include github repo and license type in metadata
+    - Tweaked format of Changes file to conform to CPAN::Changes::Spec
+
 1.01  2013-10-29
     - tweaked POD
 
