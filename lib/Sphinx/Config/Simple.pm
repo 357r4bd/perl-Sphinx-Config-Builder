@@ -63,11 +63,11 @@ sub searchd {
 sub to_string {
   my $self = shift;
   my $ret = q{};
-  foreach my $index (@{$self->index_list}) {
-    $ret .= $index->to_string();
-  }
   foreach my $source (@{$self->source_list}) {
     $ret .= $source->to_string();
+  }
+  foreach my $index (@{$self->index_list}) {
+    $ret .= $index->to_string();
   }
   $ret .= $self->indexer->to_string();
   $ret .= $self->searchd->to_string();
