@@ -4,3 +4,5 @@ Revision history for Perl extension Sphinx::Config::Builder.
 	- original version; created by h2xs 1.23 with options
 		-XAn Sphinx::Config::Builder
 
+1.00  Tue Oct 29
+	- cleaning up for CPAN distribution
