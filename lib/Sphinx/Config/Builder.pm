@@ -3,7 +3,7 @@ package Sphinx::Config::Builder;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '1.00';
 
 sub new {
     my $pkg  = shift;
@@ -202,9 +202,12 @@ searchd
 __END__
 =head1 NAME
 
-Sphinx::Config::Builder - Perl extension creating dynamic Sphinx configuration files. 
+Sphinx::Config::Builder - Perl extension dynamically creating Sphinx configuration files 
+on the fly, using a backend datasource to drive the indexes, sources, and their relationships.
 
 =head1 VERSION
+
+This module is being released as version 1.00.
 
 =head1 SYNOPSIS
 
@@ -213,8 +216,11 @@ Sphinx::Config::Builder - Perl extension creating dynamic Sphinx configuration f
         my $INDEXPATH = q{/path/to/indexes};
         my $XMLPATH = q{/path/to/xmlpipe2/output};
 	
-	foreach my $category (@categorys) {
-	    foreach my $document_set (keys $config->{$category}) {
+        # %categories may be stored elsewhere, e.g. a .ini file or MySQL database
+        my %categories = { cars => [qw/sedan truck ragtop/], boats => [qw/sail row motor/] }; 
+	
+	foreach my $category (keys %categorys) {
+	    foreach my $document_set (@{$config->{$category}}) {
 		my $xmlfile = qq{$document_set-$category} . q{.xml};
 		my $source_name  = qq{$document_set-$category} . q{_xml};
 		my $index_name   = qq{$document_set-$category};
@@ -258,13 +264,49 @@ Sphinx::Config::Builder - Perl extension creating dynamic Sphinx configuration f
           # output entire configuration 
 	  print $builder->as_string();
 
+This script may now be passed to the Sphinx indexer using the C<--config> option:
+
+ $ indexer --config /path/to/gen_config.pl --all --rotate
+
 =head1 DESCRIPTION
 
-This module allows one to systematically construct a Sphinx configuration file that
-contains so many entries that it is best created dynamically.
+The motivation behind this module is the need to manage many indexes and corresponding sources
+handled by a single Sphinx C<searchd> instance.  Managing a configuration file with many indexes
+and sources quickly becomes unweildy, and a programatic solution is necessary. Using 
+C<Sphinx::Config::Builder>, one may more easily manage Sphinx configurations using a more
+appropriate backend (e.g., a simple C<.ini> file or even a  MySQL database). This is particularly
+useful if one is frequently adding or deleting indexes and sources. This approach is 
+particularly useful for managing non-natively supported Sphinx datasources that might
+require the additional step of generating XMLPipe/Pipe2 sources.
 
 This module doesn't read in Sphinx configuration files, it simply allows one
 to construct and output a configuration file programmtically.
+
+This module allows one to systematically construct a Sphinx configuration file that
+contains so many entries that it is best created dynamically. It's fairly low level,
+and provides containers for the following:
+
+=over 4
+
+=item A list of C<Sphinx::Config::Entry::Index> objects, one per C<index> section;
+
+=item A list of C<Sphinx::Config::Entry::Source> objects, one per C<source> section;
+
+=item A singular C<Sphinx::Config::Entry::Indexer> object, one per configuration for C<indexer> options
+
+=item A singular C<Sphinx::Config::Entry::Searchd> object, one per configuration for C<searchd> options
+
+The general idea is that one builds up a list of C<index> sections and corresponding C<source> sections. One
+then defines the C<indexer> and C<searchd> options.  One is not bound to specific keywords in each section, meaning
+that they may add any key/value pair (as a singleton C<HASH> referece). Each key/value pair corresponds to a
+key/value line in each section.
+
+All C<Sphinx::Config::Entry> derived classes implement a C<as_string> method. This method outputs the section
+in the format that Sphinx expects. The overall C<Sphinx::Config::Builder> class has a C<as_string> method
+that will iterate over all members, calling their C<as_string> method. The result is the full configuration
+file that may be printed to STDOUT for the C<indexer> to consume using the C<--config> option.
+
+=back
 
 =head1 SUBROUTINES/METHODS
 
