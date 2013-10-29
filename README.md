@@ -10,5 +10,5 @@ useful if one is frequently adding or deleting indexes and sources. This approac
 particularly useful for managing non-natively supported Sphinx datasources that might
 require the additional step of generating XMLPipe/Pipe2 sources.
 
-This module doesn't read in Sphinx configuration files, it simply allows one
-to construct and output a configuration file programmtically.
+This module doesn't read in Sphinx configuration files, it simply allows one to construct and 
+output a configuration file programmtically.
