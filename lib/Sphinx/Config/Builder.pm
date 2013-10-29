@@ -1,4 +1,4 @@
-package Sphinx::Config::Simple;
+package Sphinx::Config::Builder;
 
 use strict;
 use warnings;
@@ -60,17 +60,17 @@ sub searchd {
   return $self->{searchd};
 }
 
-sub to_string {
+sub as_string {
   my $self = shift;
   my $ret = q{};
   foreach my $source (@{$self->source_list}) {
-    $ret .= $source->to_string();
+    $ret .= $source->as_string();
   }
   foreach my $index (@{$self->index_list}) {
-    $ret .= $index->to_string();
+    $ret .= $index->as_string();
   }
-  $ret .= $self->indexer->to_string();
-  $ret .= $self->searchd->to_string();
+  $ret .= $self->indexer->as_string();
+  $ret .= $self->searchd->as_string();
   return $ret;
 }
 
@@ -97,7 +97,7 @@ sub pop {
   return pop @{$self->{kv_pairs}};
 }
 
-sub to_string {
+sub as_string {
 
 }
 
@@ -111,7 +111,7 @@ sub name {
   return $self->{name};
 }
 
-sub to_string {
+sub as_string {
   my $self = shift;
   my $name = $self->{name};
   my $ret =  qq/
@@ -139,7 +139,7 @@ sub name {
   return $self->{name};
 }
 
-sub to_string {
+sub as_string {
   my $self = shift;
   my $name = $self->{name};
   my $ret =  qq/
@@ -161,7 +161,7 @@ package Sphinx::Config::Entry::Indexer;
 
 our @ISA = q{Sphinx::Config::Entry};
 
-sub to_string {
+sub as_string {
   my $self = shift;
   my $ret =  qq/
 indexer 
@@ -182,7 +182,7 @@ package Sphinx::Config::Entry::Searchd;
 
 our @ISA = q{Sphinx::Config::Entry};
 
-sub to_string {
+sub as_string {
   my $self = shift;
   my $ret =  qq/
 searchd 
@@ -204,11 +204,11 @@ searchd
 __END__
 =head1 NAME
 
-Sphinx::Config::Simple - Perl extension creating dynamic Sphinx configuration files. 
+Sphinx::Config::Builder - Perl extension creating dynamic Sphinx configuration files. 
 
 =head1 SYNOPSIS
 
-  use Sphinx::Config::Simple;
+  use Sphinx::Config::Builder;
 
 =head1 DESCRIPTION
 
