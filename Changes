@@ -7,3 +7,6 @@ Revision history for Perl extension Sphinx::Config::Builder.
 1.00  Tue Oct 29
 	- cleaning up for CPAN distribution
 	- added comprehensive test suite (currently a single file)
+
+1.01  Tue Oct 29
+    - tweaked POD

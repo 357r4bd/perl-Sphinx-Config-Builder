@@ -3,7 +3,7 @@ package Sphinx::Config::Builder;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 sub new {
     my $pkg  = shift;
@@ -215,7 +215,7 @@ This module is being released as version 1.00.
 	my $INDEXPATH = q{/path/to/indexes};
 	my $XMLPATH   = q{/path/to/xmlpipe2/output};
 	
-	$builder = Sphinx::Config::Builder->new();
+	my $builder = Sphinx::Config::Builder->new();
 	
 	# %categories may be stored elsewhere, e.g. a .ini file or MySQL database
 	my $categories = { cars => [qw/sedan truck ragtop/], boats => [qw/sail row motor/] };
@@ -296,6 +296,8 @@ and provides containers for the following:
 
 =item A singular C<Sphinx::Config::Entry::Searchd> object, one per configuration for C<searchd> options
 
+=back
+
 The general idea is that one builds up a list of C<index> sections and corresponding C<source> sections. One
 then defines the C<indexer> and C<searchd> options.  One is not bound to specific keywords in each section, meaning
 that they may add any key/value pair (as a singleton C<HASH> referece). Each key/value pair corresponds to a
@@ -305,8 +307,6 @@ All C<Sphinx::Config::Entry> derived classes implement a C<as_string> method. Th
 in the format that Sphinx expects. The overall C<Sphinx::Config::Builder> class has a C<as_string> method
 that will iterate over all members, calling their C<as_string> method. The result is the full configuration
 file that may be printed to STDOUT for the C<indexer> to consume using the C<--config> option.
-
-=back
 
 =head1 SUBROUTINES/METHODS
 
@@ -332,7 +332,7 @@ Please report - L<https://github.com/estrabd/perl-Sphinx-Config-Builder/issues>
 
 =head1 AUTHOR
 
-B. Estrade, E<lt>estrabd@gmail.com<gt>
+B. Estrade, E<lt>estrabd@gmail.comE<gt>
 
 =head1 LICENSE AND COPYRIGHT
 
