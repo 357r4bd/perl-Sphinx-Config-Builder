@@ -21,7 +21,7 @@ sub new {
 sub push_index {
     my $self = shift;
     push @{ $self->{indexes} }, @_;
-    return;
+    return 1;
 }
 
 sub pop_index {
@@ -32,7 +32,7 @@ sub pop_index {
 sub push_source {
     my $self = shift;
     push @{ $self->{sources} }, @_;
-    return;
+    return 1;
 }
 
 sub pop_source {
@@ -212,57 +212,57 @@ This module is being released as version 1.00.
 =head1 SYNOPSIS
 
 	use Sphinx::Config::Builder;
-	my $builder = Sphinx::Config::Builder->new();
-        my $INDEXPATH = q{/path/to/indexes};
-        my $XMLPATH = q{/path/to/xmlpipe2/output};
+	my $INDEXPATH = q{/path/to/indexes};
+	my $XMLPATH   = q{/path/to/xmlpipe2/output};
 	
-        # %categories may be stored elsewhere, e.g. a .ini file or MySQL database
-        my %categories = { cars => [qw/sedan truck ragtop/], boats => [qw/sail row motor/] }; 
+	$builder = Sphinx::Config::Builder->new();
 	
-	foreach my $category (keys %categorys) {
-	    foreach my $document_set (@{$config->{$category}}) {
-		my $xmlfile = qq{$document_set-$category} . q{.xml};
-		my $source_name  = qq{$document_set-$category} . q{_xml};
-		my $index_name   = qq{$document_set-$category};
-		my $src   = Sphinx::Config::Entry::Source->new();
-		my $index = Sphinx::Config::Entry::Index->new();
+	# %categories may be stored elsewhere, e.g. a .ini file or MySQL database
+	my $categories = { cars => [qw/sedan truck ragtop/], boats => [qw/sail row motor/] };
+	foreach my $category ( keys %$categories ) {
+	    foreach my $document_set ( @{ $categories->{$category} } ) {
+		my $xmlfile     = qq{$document_set-$category} . q{.xml};
+		my $source_name = qq{$document_set-$category} . q{_xml};
+		my $index_name  = qq{$document_set-$category};
+		my $src         = Sphinx::Config::Entry::Source->new();
+		my $index       = Sphinx::Config::Entry::Index->new();
 	
 		$src->name($source_name);
 		$src->push(
-		    { type => q{xmlpipe}},
+		    { type            => q{xmlpipe} },
 		    { xmlpipe_command => qq{/bin/cat $XMLPATH/$xmlfile} },
 		);
+	
 		$builder->push_source($src);
 	
 		$index->name($index_name);
 		$index->push(
-		    { source => qq{$source_name} }, 
-		    { path => qq{$INDEXPATH/$document_set} },
+		    { source       => qq{$source_name} },
+		    { path         => qq{$INDEXPATH/$document_set} },
 		    { charset_type => q{utf-8} },
-		);
+		  );
 	
-                $builder->push_index($index);
+		$builder->push_index($index);
 	    }
 	}
-	$builder->indexer->push({ mem_limit => q{64m} });
+	$builder->indexer->push( { mem_limit => q{64m} } );
 	$builder->searchd->push(
 	    { compat_sphinxql_magics => 0 },
-	    { listen          => q{192.168.0.41:9312} },
-	    { listen          => q{192.168.0.41:9306:mysql41} },
-	    { log             => q{/var/log/sphinx/searchd.log} },
-	    { query_log       => q{/var/log/sphinx/log/query.log} },
-	    { read_timeout    => 30 },
-	    { max_children    => 30 },
-	    { pid_file        => q{/var/log/sphinx/searchd.pid} },
-	    { seamless_rotate => 1 },
-	    { preopen_indexes => 1 },
-	    { unlink_old      => 1 },
-	    { workers         => q{threads} }, # for RT to work
-	    { binlog_path     => q{/var/log/sphinx} },
-	  );
-	  
-          # output entire configuration 
-	  print $builder->as_string();
+	    { listen                 => q{192.168.0.41:9312} },
+	    { listen                 => q{192.168.0.41:9306:mysql41} },
+	    { log                    => q{/var/log/sphinx/searchd.log} },
+	    { query_log              => q{/var/log/sphinx/log/query.log} },
+	    { read_timeout           => 30 },
+	    { max_children           => 30 },
+	    { pid_file               => q{/var/log/sphinx/searchd.pid} },
+	    { seamless_rotate        => 1 },
+	    { preopen_indexes        => 1 },
+	    { unlink_old             => 1 },
+	    { workers     => q{threads} },           # for RT to work
+	    { binlog_path => q{/var/log/sphinx} },
+	);
+	
+	print $builder->as_string;
 
 This script may now be passed to the Sphinx indexer using the C<--config> option:
 
