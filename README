@@ -1,4 +1,4 @@
-Sphinx-Config-Builder version 0.01
+Sphinx-Config-Builder version 1.00 
 =================================
 
 The README is used to introduce the module and provide instructions on
@@ -25,13 +25,13 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+	None
 
 COPYRIGHT AND LICENCE
 
 Put the correct copyright and licence information here.
 
-Copyright (C) 2013 by User &
+Copyright (C) 2013 by B. Estrade <estrabd@gmail.com> 
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.14.4 or,
