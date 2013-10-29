@@ -207,7 +207,7 @@ on the fly, using a backend datasource to drive the indexes, sources, and their 
 
 =head1 VERSION
 
-This module is being released as version 1.00.
+This module is being released as version 1.01.
 
 =head1 SYNOPSIS
 
