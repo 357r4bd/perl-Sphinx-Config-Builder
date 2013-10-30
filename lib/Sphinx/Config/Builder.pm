@@ -85,12 +85,12 @@ sub new {
     return $self;
 }
 
-sub push {
+sub kv_push {
     my $self = shift;
     return push @{ $self->{kv_pairs} }, @_;
 }
 
-sub pop {
+sub kv_pop {
     my $self = shift;
     return pop @{ $self->{kv_pairs} };
 }
@@ -228,7 +228,7 @@ This module is being released as version 1.01.
 		my $index       = Sphinx::Config::Entry::Index->new();
 	
 		$src->name($source_name);
-		$src->push(
+		$src->kv_push(
 		    { type            => q{xmlpipe} },
 		    { xmlpipe_command => qq{/bin/cat $XMLPATH/$xmlfile} },
 		);
@@ -236,7 +236,7 @@ This module is being released as version 1.01.
 		$builder->push_source($src);
 	
 		$index->name($index_name);
-		$index->push(
+		$index->kv_push(
 		    { source       => qq{$source_name} },
 		    { path         => qq{$INDEXPATH/$document_set} },
 		    { charset_type => q{utf-8} },
@@ -245,8 +245,8 @@ This module is being released as version 1.01.
 		$builder->push_index($index);
 	    }
 	}
-	$builder->indexer->push( { mem_limit => q{64m} } );
-	$builder->searchd->push(
+	$builder->indexer->kv_push( { mem_limit => q{64m} } );
+	$builder->searchd->kv_push(
 	    { compat_sphinxql_magics => 0 },
 	    { listen                 => q{192.168.0.41:9312} },
 	    { listen                 => q{192.168.0.41:9306:mysql41} },
@@ -336,9 +336,9 @@ file that may be printed to STDOUT for the C<indexer> to consume using the C<--c
 
 =head3 C<new> 
 
-=head3 C<push> 
+=head3 C<kv_push> 
 
-=head3 C<pop> 
+=head3 C<kv_pop> 
 
 =head3 C<as_string>
 
@@ -348,9 +348,9 @@ file that may be printed to STDOUT for the C<indexer> to consume using the C<--c
 
 =head3 C<new> 
 
-=head3 C<push> 
+=head3 C<kv_push> 
 
-=head3 C<pop> 
+=head3 C<kv_pop> 
 
 =head3 C<as_string>
 

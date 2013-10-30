@@ -14,10 +14,10 @@ can_ok( $builder,
 );
 
 my $index = new_ok q{Sphinx::Config::Entry::Index};
-can_ok( $index, qw/new as_string name push pop/ );
+can_ok( $index, qw/new as_string name kv_push kv_pop/ );
 
 my $source = new_ok q{Sphinx::Config::Entry::Source};
-can_ok( $source, qw/new as_string name push pop/ );
+can_ok( $source, qw/new as_string name kv_push kv_pop/ );
 
 my $indexer = new_ok q{Sphinx::Config::Entry::Indexer};
 
@@ -48,7 +48,7 @@ foreach my $category ( keys %$categories ) {
         my $index       = new_ok q{Sphinx::Config::Entry::Index};
 
         ok $src->name($source_name), q{Set source name};
-        ok $src->push(
+        ok $src->kv_push(
             { type            => q{xmlpipe} },
             { xmlpipe_command => qq{/bin/cat $XMLPATH/$xmlfile} },
           ),
@@ -57,7 +57,7 @@ foreach my $category ( keys %$categories ) {
         ok $builder->push_source($src), q{Add source to Source list};
 
         ok $index->name($index_name), q{Set index name};
-        ok $index->push(
+        ok $index->kv_push(
             { source       => qq{$source_name} },
             { path         => qq{$INDEXPATH/$document_set} },
             { charset_type => q{utf-8} },
@@ -67,9 +67,9 @@ foreach my $category ( keys %$categories ) {
         ok $builder->push_index($index), q{Add index to Index list};
     }
 }
-ok $builder->indexer->push( { mem_limit => q{64m} } ),
+ok $builder->indexer->kv_push( { mem_limit => q{64m} } ),
   q{Adding key/value pairs to indexer};
-ok $builder->searchd->push(
+ok $builder->searchd->kv_push(
     { compat_sphinxql_magics => 0 },
     { listen                 => q{192.168.0.41:9312} },
     { listen                 => q{192.168.0.41:9306:mysql41} },
@@ -105,5 +105,21 @@ ok $builder->searchd->as_string() ne q{},
   q{Ensuring $builder->searchd->as_string() is not empty};
 
 ok $builder->as_string() ne q{}, q{Ensuring $builder->as_string() is not empty};
+
+while (my $s = $builder->pop_source()) {
+    isa_ok $s, q{Sphinx::Config::Entry};
+    isa_ok $s, q{Sphinx::Config::Entry::Source};
+    foreach my $kv_pair ($s->kv_pop()) {
+       ok ref $kv_pair eq q{HASH}, q{source's kv_pop'd item is a HASH ref}; 
+    }
+}
+
+while (my $i = $builder->pop_index()) {
+    isa_ok $i, q{Sphinx::Config::Entry};
+    isa_ok $i, q{Sphinx::Config::Entry::Index};
+    foreach my $kv_pair ($i->kv_pop()) {
+       ok ref $kv_pair eq q{HASH}, q{index's kv_pop'd item is a HASH ref}; 
+    }
+}
 
 done_testing();
