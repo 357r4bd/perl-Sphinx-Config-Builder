@@ -3,7 +3,7 @@ package Sphinx::Config::Builder;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 sub new {
     my $pkg  = shift;
@@ -207,7 +207,7 @@ on the fly, using a backend datasource to drive the indexes, sources, and their 
 
 =head1 VERSION
 
-This module is being released as version 1.01.
+This module is being released as version 1.02.
 
 =head1 SYNOPSIS
 
