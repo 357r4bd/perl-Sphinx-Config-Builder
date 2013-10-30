@@ -1,12 +1,17 @@
-Revision history for Perl extension Sphinx::Config::Builder.
+Revision history for Perl module Sphinx::Config::Builder
 
-0.01  Thu Oct 24 13:16:47 2013
-	- original version; created by h2xs 1.23 with options
-		-XAn Sphinx::Config::Builder
+1.02
+    - Makefile.PL will now include github repo and license type in metadata
+    - Tweaked format of Changes file to conform to CPAN::Changes::Spec
 
-1.00  Tue Oct 29
+1.01  2013-10-29
+    - tweaked POD
+
+1.00  2013-10-29
 	- cleaning up for CPAN distribution
 	- added comprehensive test suite (currently a single file)
 
-1.01  Tue Oct 29
-    - tweaked POD
+0.01  2013-10-24
+	- original version; created by h2xs 1.23 with options
+		-XAn Sphinx::Config::Builder
+
