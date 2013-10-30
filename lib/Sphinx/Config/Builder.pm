@@ -314,45 +314,84 @@ file that may be printed to STDOUT for the C<indexer> to consume using the C<--c
 
 =head3 C<new>
 
+Highest level constructor.
+
 =head3 C<push_index>
+
+Push a reference of Sphinx::Config::Entry::Index into builder. 
 
 =head3 C<pop_index>
 
+Pop a reference of Sphinx::Config::Entry::Index into builder. 
+
 =head3 C<push_source>
+
+Push a reference of Sphinx::Config::Entry::Source into builder. 
 
 =head3 C<pop_source>
 
+Pop a reference of Sphinx::Config::Entry::Source into builder. 
+
 =head3 C<index_list>
+
+Get container list of all Index references.
 
 =head3 C<source_list>
 
+Get container list of all Source references.
+
 =head3 C<indexer>
+
+Get Sphinx::Config::Entry::Indexer member reference.
 
 =head3 C<sourced>
 
+Get Sphinx::Config::Entry::Searchd member reference.
+
 =head3 C<as_string>
+
+Calls C<as_string> method for all members of the builder object, which results in the entire
+configuration file.
 
 =head2 C<Sphinx::Config::Entry::Index> and C<Sphinx::Config::Entry::Source> 
 
 =head3 C<new> 
 
+Constructor.
+
 =head3 C<kv_push> 
+
+Push key/value HASH ref into Index, Source list.
 
 =head3 C<kv_pop> 
 
+Pop key/value HASH ref from Index, Source list.
+
 =head3 C<as_string>
 
+Return string reprentation of Index, Source.
+
 =head3 C<name> 
+
+Set name of Index, Source.
 
 =head2 C<Sphinx::Config::Entry::Indexer> and C<Sphinx::Config::Entry::Searchd>  
 
 =head3 C<new> 
 
+Constructor.
+
 =head3 C<kv_push> 
+
+Push key/value HASH ref into Indexer, Searchd.
 
 =head3 C<kv_pop> 
 
+Pop key/value HASH ref from Indexer, Searchd.
+
 =head3 C<as_string>
+
+Return string representation of Indexer, Searchd.
 
 =head1 DEPENDENCIES
 
@@ -360,7 +399,7 @@ None.
 
 =head1 DIAGNOSTICS
 
-None.
+There is no validation, garbage in, garbage out.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
