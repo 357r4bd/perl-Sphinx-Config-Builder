@@ -1,0 +1,2 @@
+meta:
+	perl Makefile.PL && mv MYMETA.yml META.yml && mv MYMETA.json META.json
