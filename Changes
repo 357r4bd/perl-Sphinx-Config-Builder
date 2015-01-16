@@ -1,5 +1,8 @@
 Revision history for Perl module Sphinx::Config::Builder
 
+1.03
+    - Added META.yml and META.json to distribution
+
 1.02
     - Makefile.PL will now include github repo and license type in metadata
     - Tweaked format of Changes file to conform to CPAN::Changes::Spec
