@@ -3,13 +3,13 @@ package Sphinx::Config::Builder;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 sub new {
     my $pkg  = shift;
     my $self = {
-        indexes => [],    # container of ::Index references
-        sources => [],    # container of ::Source references
+        indexes => [],                                      # container of ::Index references
+        sources => [],                                      # container of ::Source references
         indexer => Sphinx::Config::Entry::Indexer->new(),
         searchd => Sphinx::Config::Entry::Searchd->new(),
     };
