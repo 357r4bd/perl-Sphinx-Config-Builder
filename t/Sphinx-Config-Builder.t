@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 
 BEGIN {
-    use_ok( 'Sphinx::Config::Builder', q{Loading Sphinx::Config::Builder} );
+    use_ok( 'Sphinx::Config::Builder' );
 }
 
 my $builder = new_ok q{Sphinx::Config::Builder};
